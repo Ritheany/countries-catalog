@@ -38,3 +38,30 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Assignment
+
+Countries Catalog Implementation
+1. Please use this free api to get related data - https://restcountries.com/
+2. Requirements
+    - Please show the following fields on your catalog. Inside the () is the property of data.
+        - Flags (Please use png file within flags property)
+        - Country Name (name.official)
+        - 2 character Country Code (cca2)
+        - 3 character Country Code (cca3)
+        - Native Country Name (name.nativeName)
+        - Alternative Country Name (altSpellings)
+        - Country Calling Codes (idd)
+    - Search by Country Name (Fuzzy Search)
+    - Sorting by Country Name (Asc,Desc)
+    - Pagination (25 rows per page)
+    - After clicked on country name, pop up a modal and show all others informations.
+3. Please deploy your service to GitHub Pages and keep all related commit history.
+4. Using any of these frontend frameworks is a plus - Vue.Js, React, Angular.
+
+
+
+Issues while development:
+- Init with Node16
+ - There are few issues with Next -> resolve: we need to bump version to 18

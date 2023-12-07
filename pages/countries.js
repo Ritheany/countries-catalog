@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import { useState, useEffect } from "react";
-import CountriesList from "../components/tableList";
+import CountryListComponent from "../components/countryListComponent";
 
 const axios = require("axios");
 
@@ -68,7 +68,7 @@ const useCountries = () => {
     >
       <div>
         <h1>Hello Countries</h1>
-        <CountriesList data={countriesData} handleFilterFN={handleFilterFN} />
+        <CountryListComponent data={countriesData} handleFilterFN={handleFilterFN} />
       </div>
     </main>
   );

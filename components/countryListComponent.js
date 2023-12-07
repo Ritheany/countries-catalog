@@ -28,7 +28,7 @@ const handleRenderHeader = () => {
   );
 };
 
-export default function CountriesList(props) {
+export default function CountryListComponent(props) {
   const [searchState, setSearchState] = useState("");
   const [visibleModal, setVisibleModal] = useState(false);
   const [dataModal, setDataModal] = useState({});

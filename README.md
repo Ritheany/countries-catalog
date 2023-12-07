@@ -4,21 +4,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
+Checkout to `develop` branch
+
 ```bash
+npm install
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000/countries](http://localhost:3000/countries) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+[API routes](https://nextjs.org/docs/api-routes/introduction) 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+API 1 -> can be accessed on [http://localhost:3000/api/countries](http://localhost:3000/api/countries). This endpoint can be edited in `pages/api/countries/index.js`.
+
+API 2 -> can be asscessed on [http://localhost:3000/api/countries/search?countryName=cambodia](http://localhost:3000/api/countries/search?countryName=cambodia)
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
@@ -39,29 +39,28 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-
 ## Assignment
 
 Countries Catalog Implementation
+
 1. Please use this free api to get related data - https://restcountries.com/
 2. Requirements
-    - Please show the following fields on your catalog. Inside the () is the property of data.
-        - Flags (Please use png file within flags property)
-        - Country Name (name.official)
-        - 2 character Country Code (cca2)
-        - 3 character Country Code (cca3)
-        - Native Country Name (name.nativeName)
-        - Alternative Country Name (altSpellings)
-        - Country Calling Codes (idd)
-    - Search by Country Name (Fuzzy Search)
-    - Sorting by Country Name (Asc,Desc)
-    - Pagination (25 rows per page)
-    - After clicked on country name, pop up a modal and show all others informations.
+   - Please show the following fields on your catalog. Inside the () is the property of data.
+     - Flags (Please use png file within flags property) `[done]`
+     - Country Name (name.official) `[done]`
+     - 2 character Country Code (cca2) `[done]`
+     - 3 character Country Code (cca3) `[done]`
+     - Native Country Name (name.nativeName) `[done]`
+     - Alternative Country Name (altSpellings) `[done]`
+     - Country Calling Codes (idd) `[done]`
+   - Search by Country Name (Fuzzy Search) `[done]`
+   - Sorting by Country Name (Asc,Desc) `[done]`
+   - Pagination (25 rows per page) `[done]`
+   - After clicked on country name, pop up a modal and show all others informations. `[done]`
 3. Please deploy your service to GitHub Pages and keep all related commit history.
 4. Using any of these frontend frameworks is a plus - Vue.Js, React, Angular.
 
+## Issues while development:
 
-
-Issues while development:
 - Init with Node16
- - There are few issues with Next -> resolve: we need to bump version to 18
+- There are few issues with Next -> resolve: we need to use node version v18.19.0 (Latest LTS: Hydrogen)

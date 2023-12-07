@@ -3,14 +3,23 @@
 export default async function handler(req, res) {
   try {
     const { query } = req;
+    const { page = 1, limit = 5, countryName } = query;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
     const response = await fetch(
-      `https://restcountries.com/v3.1/name/${query.countryName}?fields=name,flag,flags,cca2,cca3,altSpellings,idd`
+      `https://restcountries.com/v3.1/name/${countryName}?fields=name,flag,flags,cca2,cca3,altSpellings,idd`
     );
+
     const jsonData = await response.json();
     if (jsonData.length) {
+      const resultCounties = jsonData.slice(startIndex, endIndex);
+
       return res.json({
         message: "Successfully",
-        data: jsonData || [],
+        data: resultCounties || [],
+        page: page,
+        totalPages: jsonData.length / limit,
+        limit: limit,
         status: 200,
       });
     }

@@ -13,11 +13,15 @@ const useCountries = () => {
   const [listPage, setListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [listSort, setListSort] = useState("");
+  const hostURl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? process.env.NEXT_PUBLIC_VERCEL_URL
+    : "http://localhost:3000";
 
   const handleFetchCountryAPI = async () => {
     try {
+
       const { data } = await axios.get(
-        `http://localhost:3000/api/countries?page=${listPage}&limit=${countryLimit}`
+        `${hostURl}/api/countries?page=${listPage}&limit=${countryLimit}`
       );
       return { status: data.status, data: data };
     } catch (error) {
@@ -27,7 +31,7 @@ const useCountries = () => {
 
   const handleSearchCountryAPI = async () => {
     const { data, status } = await axios.get(
-      `http://localhost:3000/api/countries/search?page=${listPage}&limit=${countryLimit}&countryName=${searchCountry}`
+      `${hostURl}/api/countries/search?page=${listPage}&limit=${countryLimit}&countryName=${searchCountry}`
     );
     return { status: status, data: data };
   };

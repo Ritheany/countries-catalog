@@ -9,7 +9,7 @@ const useCountries = () => {
   const [load, setLoad] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [searchCountry, setSearchCountry] = useState(0);
-  const [countryLimit, setCountryLimit] = useState(10);
+  const [countryLimit, setCountryLimit] = useState(25);
   const [listPage, setListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 

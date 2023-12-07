@@ -18,6 +18,9 @@ const handleRenderHeader = () => {
           Native Name
         </th>
         <th scope="col" className="px-6 py-3">
+          Calling code
+        </th>
+        <th scope="col" className="px-6 py-3">
           Code cca2
         </th>
         <th scope="col" className="px-6 py-3">
@@ -77,7 +80,7 @@ export default function CountryListComponent(props) {
    */
   const handleRenderBody = (dataCountry) => {
     const renderRow = dataCountry.map((elem, index) => {
-      const { flags, cca3, cca2, name, altSpellings } = elem;
+      const { flags, cca3, cca2, idd, name, altSpellings } = elem;
       const fullAltinativeSpellings = altSpellings.join(" | ");
       // There are many native name in some countries, so I decide to pick only one at first.
       // There is one country that doesn't have any nativeName >>"ATA"<<,
@@ -86,6 +89,8 @@ export default function CountryListComponent(props) {
       const nativeOfficialName = name.nativeName[getFistObject]
         ? name.nativeName[getFistObject].official
         : "No Native Name";
+
+      const combineCallingCode = `${idd.root}${idd.suffixes[0]}`; // decide to pick one, because USA there are so many code
 
       return (
         <tr
@@ -99,6 +104,7 @@ export default function CountryListComponent(props) {
               fullAltinativeSpellings,
               cca2,
               cca3,
+              combineCallingCode,
             });
             setVisibleModal(true);
           }}
@@ -116,6 +122,7 @@ export default function CountryListComponent(props) {
           <td className="px-6 py-4">{name.official}</td>
           <td className="px-6 py-4">{fullAltinativeSpellings}</td>
           <td className="px-6 py-4">{nativeOfficialName}</td>
+          <td className="px-6 py-4">{combineCallingCode}</td>
           <td className="px-6 py-4">{cca2}</td>
           <td className="px-6 py-4">{cca3}</td>
         </tr>

@@ -7,6 +7,7 @@ export default function ModalComponent(props) {
     name,
     nativeOfficialName,
     fullAltinativeSpellings,
+    combineCallingCode,
     cca2,
     cca3,
   } = data;
@@ -36,6 +37,9 @@ export default function ModalComponent(props) {
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               Native Official Name : {nativeOfficialName}
+            </p>
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              Calling Code : {combineCallingCode}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               CCA2 : {cca2}

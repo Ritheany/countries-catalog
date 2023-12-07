@@ -1,3 +1,4 @@
+import ModalComponent from "./modalComponent";
 const { useState, useEffect } = require("react");
 
 const handleRenderHeader = () => {
@@ -27,84 +28,14 @@ const handleRenderHeader = () => {
   );
 };
 
-/**
- * dataProps contain each country list
- */
-const handleRenderBody = (dataCountry) => {
-  const renderRow = dataCountry.map((elem, index) => {
-    const { cca3, cca2, name, altSpellings } = elem;
-    const fullAltinativeSpellings = altSpellings.join(" | ");
-    // There are many native name in some countries, so I decide to pick only one at first.
-    // There is one country that doesn't have any nativeName >>"ATA"<<,
-    console.log('name.nativeName : ', name.nativeName);
-    const getFistObject = Object.keys(name.nativeName)[0];
-    const nativeOfficialName = name.nativeName[getFistObject]
-      ? name.nativeName[getFistObject].official
-      : "No Native Name";
-
-    return (
-      <tr
-        key={index + 1}
-        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-      >
-        <th
-          scope="row"
-          className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-        >
-          expect flag
-        </th>
-        <td className="px-6 py-4">{name.official}</td>
-        <td className="px-6 py-4">{fullAltinativeSpellings}</td>
-        <td className="px-6 py-4">{nativeOfficialName}</td>
-        <td className="px-6 py-4">{cca2}</td>
-        <td className="px-6 py-4">{cca3}</td>
-      </tr>
-    );
-  });
-  return (
-    <tbody>
-      {renderRow}
-      {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-        <th
-          scope="row"
-          className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-        >
-          expect flag
-        </th>
-        <td className="px-6 py-4">Cambodia</td>
-        <td className="px-6 py-4">ព្រះរាជាណាចក្រកម្ពុជា</td>
-        <td className="px-6 py-4">KH</td>
-        <td className="px-6 py-4">KHM</td>
-        <td className="px-6 py-4">Kingdom of Cambodia</td>
-      </tr> */}
-    </tbody>
-  );
-};
-
-const handleRenderPagination = () => {
-  return (
-    <div className="flex mt-5 justify-end">
-      <a
-        href="#"
-        className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-      >
-        Previous
-      </a>
-      <a
-        href="#"
-        className="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-      >
-        Next
-      </a>
-    </div>
-  );
-};
-
 export default function CountriesList(props) {
   const [searchState, setSearchState] = useState("");
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [dataModal, setDataModal] = useState({});
 
   const { data, handleFilterFN } = props;
   const dataLength = data.length;
+  // console.log("dataLength : ", dataLength);
 
   const handleRenderSearch = () => {
     return (
@@ -141,6 +72,79 @@ export default function CountriesList(props) {
     );
   };
 
+  /**
+   * dataProps contain each country list
+   */
+  const handleRenderBody = (dataCountry) => {
+    const renderRow = dataCountry.map((elem, index) => {
+      const { flags, cca3, cca2, name, altSpellings } = elem;
+      const fullAltinativeSpellings = altSpellings.join(" | ");
+      // There are many native name in some countries, so I decide to pick only one at first.
+      // There is one country that doesn't have any nativeName >>"ATA"<<,
+
+      const getFistObject = Object.keys(name.nativeName)[0];
+      const nativeOfficialName = name.nativeName[getFistObject]
+        ? name.nativeName[getFistObject].official
+        : "No Native Name";
+
+      return (
+        <tr
+          key={index + 1}
+          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+          onClick={() => {
+            setDataModal({
+              flags,
+              name,
+              nativeOfficialName,
+              fullAltinativeSpellings,
+              cca2,
+              cca3,
+            });
+            setVisibleModal(true);
+          }}
+        >
+          <th
+            scope="row"
+            className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+          >
+            <img
+              className="h-auto max-w-full"
+              alt={flags.alt}
+              src={flags.png}
+            />
+          </th>
+          <td className="px-6 py-4">{name.official}</td>
+          <td className="px-6 py-4">{fullAltinativeSpellings}</td>
+          <td className="px-6 py-4">{nativeOfficialName}</td>
+          <td className="px-6 py-4">{cca2}</td>
+          <td className="px-6 py-4">{cca3}</td>
+        </tr>
+      );
+    });
+    return <tbody>{renderRow}</tbody>;
+  };
+
+  const handleRenderPagination = () => {
+    return (
+      <div className="flex mt-5 justify-end">
+        <a
+          href="#"
+          className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          Previous
+        </a>
+        <a
+          href="#"
+          className="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          Next
+        </a>
+      </div>
+    );
+  };
+
+  const onHideModalFN = () => setVisibleModal(false);
+
   if (dataLength < 1) {
     return (
       <div className="max-w-2xl mx-auto">
@@ -155,11 +159,16 @@ export default function CountriesList(props) {
     <div className="mx-auto">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         {handleRenderSearch()}
+        {handleRenderPagination()}
+        <ModalComponent
+          data={dataModal}
+          visible={visibleModal}
+          onHideModal={onHideModalFN}
+        />
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           {handleRenderHeader()}
           {handleRenderBody(data)}
         </table>
-        {handleRenderPagination()}
       </div>
     </div>
   );

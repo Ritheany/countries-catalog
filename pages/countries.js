@@ -17,7 +17,7 @@ const useCountries = () => {
   const handleFetchCountryAPI = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/countries?page=${listPage}&limit=${countryLimit}`
+        `/api/countries?page=${listPage}&limit=${countryLimit}`
       );
       return { status: data.status, data: data };
     } catch (error) {
@@ -27,7 +27,7 @@ const useCountries = () => {
 
   const handleSearchCountryAPI = async () => {
     const { data, status } = await axios.get(
-      `http://localhost:3000/api/countries/search?page=${listPage}&limit=${countryLimit}&countryName=${searchCountry}`
+      `/api/countries/search?page=${listPage}&limit=${countryLimit}&countryName=${searchCountry}`
     );
     return { status: status, data: data };
   };

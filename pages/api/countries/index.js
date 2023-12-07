@@ -4,7 +4,6 @@ export default async function handler(req, res) {
     const { page = 1, limit = 5 } = req.query;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-
     const response = await fetch(
       "https://restcountries.com/v3.1/all?fields=name,flag,flags,cca2,cca3,altSpellings,idd"
     );

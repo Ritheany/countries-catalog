@@ -32,20 +32,17 @@ const handleRenderHeader = () => {
 };
 
 export default function CountryListComponent(props) {
+  const { data, handleFilterFN, handleSortFN, handlePaginationFN } = props;
+
   const [searchState, setSearchState] = useState("");
   const [visibleModal, setVisibleModal] = useState(false);
   const [dataModal, setDataModal] = useState({});
 
-  const { data, handleFilterFN, handlePaginationFN } = props;
-  const dataLength = data.length;
-  // console.log("dataLength : ", dataLength);
-
   const handleRenderSearch = () => {
     return (
       <div className="p-4">
-        <label className="sr-only">Search</label>
-        <div className="relative mt-1">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="relative">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
               className="w-4 h-4 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
@@ -55,21 +52,28 @@ export default function CountryListComponent(props) {
             >
               <path
                 stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
           </div>
           <input
-            type="text"
+            type="search"
             id="table-search"
+            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search country name"
             value={searchState}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search for items"
-            onBlur={() => {
-              handleFilterFN.nameCountryFN(searchState);
-            }}
             onChange={(event) => setSearchState(event.target.value)}
           />
+          <button
+            type="button"
+            className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={() => handleFilterFN.nameCountryFN(searchState)}
+          >
+            Search
+          </button>
         </div>
       </div>
     );
@@ -133,24 +137,40 @@ export default function CountryListComponent(props) {
 
   const handleRenderPagination = () => {
     return (
-      <div className="flex mt-5 justify-end">
+      <div className="flex mt-5 mb-5 justify-between">
         <button
           className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          onClick={handlePaginationFN.previous}
+          onClick={() => handleSortFN("ACS")}
         >
-          Previous
+          Country Name ACS
         </button>
         <button
-          className="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          onClick={handlePaginationFN.next}
+          className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={() => handleSortFN("DES")}
         >
-          Next
+          Country Name Desc
         </button>
+        <div className="flex ">
+          <button
+            className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            onClick={handlePaginationFN.previous}
+          >
+            Previous
+          </button>
+          <button
+            className="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            onClick={handlePaginationFN.next}
+          >
+            Next
+          </button>
+        </div>
       </div>
     );
   };
 
   const onHideModalFN = () => setVisibleModal(false);
+
+  const dataLength = data.length;
 
   if (dataLength < 1) {
     return (
@@ -162,6 +182,7 @@ export default function CountryListComponent(props) {
       </div>
     );
   }
+
   return (
     <div className="mx-auto">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

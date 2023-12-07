@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import CountryListComponent from "../components/countryListComponent";
 
 const axios = require("axios");
@@ -12,6 +12,7 @@ const useCountries = () => {
   const [countryLimit, setCountryLimit] = useState(25);
   const [listPage, setListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [listSort, setListSort] = useState("");
 
   const handleFetchCountryAPI = async () => {
     try {
@@ -79,6 +80,31 @@ const useCountries = () => {
     }
   }, [searchCountry]);
 
+  const mockdata = () => {
+    if (listSort === "ACS") {
+      const mocArry = Object.assign([], countriesData);
+
+      const sortFN = (a, b) => {
+        return a.name.official.localeCompare(b.name.official);
+      };
+      const result = mocArry.sort(sortFN);
+      setCountriesData(result);
+    }
+
+    if (listSort === "DES") {
+      const mocArry = Object.assign([], countriesData);
+      const sortFN = (a, b) => {
+        return b.name.official.localeCompare(a.name.official);
+      };
+      const result = mocArry.sort(sortFN);
+      setCountriesData(result);
+    }
+  };
+
+  useEffect(() => {
+    mockdata();
+  }, [listSort]);
+
   const handleFilterFN = {
     // everytime search value changed, should reset the state
     nameCountryFN: (nameText) => {
@@ -86,6 +112,10 @@ const useCountries = () => {
       handleResetDefaultState();
       setIsSearch(true);
     },
+  };
+
+  const handleSortFN = (type) => {
+    setListSort(type);
   };
 
   const handlePaginationFN = {
@@ -112,10 +142,11 @@ const useCountries = () => {
       className={`flex min-h-screen flex-col items-center justify-between p-24`}
     >
       <div>
-        <h1>Hello Countries</h1>
+        <p className="flex justify-center text-6xl">Hello Countries</p>
         <CountryListComponent
           data={countriesData}
           handleFilterFN={handleFilterFN}
+          handleSortFN={handleSortFN}
           handlePaginationFN={handlePaginationFN}
         />
       </div>
